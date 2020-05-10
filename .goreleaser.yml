@@ -4,7 +4,7 @@ before:
 
 builds:
 - id: trellogo
-  main: ./cmd
+  main: ./cmd/trellogo
   binary: trellogo
   env:
   - CGO_ENABLED=0
