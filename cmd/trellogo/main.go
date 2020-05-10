@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -10,7 +11,8 @@ import (
 )
 
 func main() {
-	cfg, err := config.ReadConfig("config.yml")
+	home, _ := os.UserHomeDir()
+	cfg, err := config.ReadConfig(fmt.Sprintf("%s/.trellogo.yml", home))
 	if err != nil {
 		log.Fatalf("[-] could not read config variables: %v", err)
 	}
