@@ -1,0 +1,9 @@
+api_key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+api_token: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+lists:
+  - name: today
+    id: xxxxxxxxxxxxxxxxxxxxxxxx
+
+  - name: todo
+    id: xxxxxxxxxxxxxxxxxxxxxxxx
