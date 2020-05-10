@@ -1,5 +1,6 @@
 ## trellogo
 ![build](https://github.com/utkuufuk/trellogo/workflows/trellogo/badge.svg?branch=master)
+![Latest GitHub release](https://img.shields.io/github/release/utkuufuk/trellogo.svg)
 
 A command line tool for interacting with the Trello API.
 
