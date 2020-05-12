@@ -3,11 +3,11 @@ package commands
 import (
 	"fmt"
 
-	"github.com/utkuufuk/trellogo/pkg/api"
+	"github.com/adlio/trello"
 )
 
 type Command interface {
-	Run(client api.Client, lists map[string]string) error
+	Run(client *trello.Client, lists map[string]string) error
 }
 
 // UndefinedCommand returns an error indicating an undefined command.
@@ -21,12 +21,12 @@ type FetchListsCommand struct {
 	Lists []string
 }
 
-func (cmd UndefinedCommand) Run(_ api.Client, _ map[string]string) error {
+func (cmd UndefinedCommand) Run(_ *trello.Client, _ map[string]string) error {
 	return cmd.Err
 }
 
 // TODO: fetch lists in parallel
-func (cmd FetchAllListsCommand) Run(client api.Client, lists map[string]string) error {
+func (cmd FetchAllListsCommand) Run(client *trello.Client, lists map[string]string) error {
 	for name, id := range lists {
 		if err := fetchAndPrintList(client, name, id); err != nil {
 			return err
@@ -36,14 +36,14 @@ func (cmd FetchAllListsCommand) Run(client api.Client, lists map[string]string) 
 }
 
 // TODO: fetch lists in parallel
-func (cmd FetchListsCommand) Run(client api.Client, lists map[string]string) error {
-	for _, list := range cmd.Lists {
-		id, ok := lists[list]
+func (cmd FetchListsCommand) Run(client *trello.Client, lists map[string]string) error {
+	for _, name := range cmd.Lists {
+		id, ok := lists[name]
 		if !ok {
-			return fmt.Errorf("undefined list: '%s'", list)
+			return fmt.Errorf("undefined list: '%s'", name)
 		}
 
-		if err := fetchAndPrintList(client, list, id); err != nil {
+		if err := fetchAndPrintList(client, name, id); err != nil {
 			return err
 		}
 	}
@@ -51,14 +51,19 @@ func (cmd FetchListsCommand) Run(client api.Client, lists map[string]string) err
 }
 
 // fetchAndPrintList fetches & prints all cards in the given list
-func fetchAndPrintList(client api.Client, name, id string) error {
-	data, err := client.FetchListCards(id)
+func fetchAndPrintList(client *trello.Client, name, id string) error {
+	list, err := client.GetList(id, trello.Defaults())
 	if err != nil {
-		return fmt.Errorf("could not fecth cards in '%s' list: %w", name, err)
+		return fmt.Errorf("could not fetch fetch list '%s': %w", name, err)
+	}
+
+	cards, err := list.GetCards(trello.Defaults())
+	if err != nil {
+		return fmt.Errorf("could not fetch cards from list '%s': %w", name, err)
 	}
 
 	fmt.Printf("\n%s List:\n=====================\n", name)
-	for _, card := range data {
+	for _, card := range cards {
 		fmt.Println(card.Name)
 	}
 	return nil

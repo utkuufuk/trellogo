@@ -5,9 +5,9 @@ import (
 	"log"
 	"os"
 
+	"github.com/adlio/trello"
 	"github.com/utkuufuk/trellogo/internal/commands"
 	"github.com/utkuufuk/trellogo/internal/config"
-	"github.com/utkuufuk/trellogo/pkg/api"
 )
 
 func main() {
@@ -17,7 +17,7 @@ func main() {
 		log.Fatalf("[-] could not read config variables: %v", err)
 	}
 
-	client := api.NewClient(cfg.ApiKey, cfg.ApiToken)
+	client := trello.NewClient(cfg.ApiKey, cfg.ApiToken)
 	lists := mapLists(cfg.Lists)
 
 	command := commands.Parse(os.Args[1:])
