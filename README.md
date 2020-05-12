@@ -19,6 +19,15 @@ go build ./cmd/trellogo
 | `trellogo list`               | lists cards from all lists included in config |
 | `trellogo list <L1> <L2> ...` | lists cards from only the selected lists (as aliased in config) |
 
+### Dependencies
+Dependencies besides the standard library:
+| Dependency | Purpose |
+|:-|:-|
+| [adlio/trello](https://github.com/adlio/trello)   | Trello API Client |
+| [google/go-cmp](https://github.com/google/go-cmp) | Equality Comparisons in Tests |
+| [go-yaml/yaml](https://github.com/go-yaml/yaml)   | YAML Configuration |
+
+
 ### References
  * [Trello REST API](https://developer.atlassian.com/cloud/trello/rest/)
  * [Trello REST API Help](http://www.trello.org/help.html)
